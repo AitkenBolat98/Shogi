@@ -22,7 +22,7 @@ public class Pawn extends Piece {
     @Override
     public boolean isMoveSatisfyLimit(Coordinates from, Coordinates to) {
         int change = to.vertical - from.vertical;
-        if (change == 1 && change == -1) {
+        if (change == 1 || change == -1) {
             return true;
         } else {
             return false;

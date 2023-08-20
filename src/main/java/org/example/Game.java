@@ -1,18 +1,27 @@
 package org.example;
 
-public class Game {
-    private boolean isWhite = false;
-    private final Board board;
-    private MapRenderer mapRenderer;
+import org.example.Piece.Piece;
 
-    public Game(Board board) {
+public class Game {
+    private final Board board;
+    private final MapRenderer mapRenderer;
+
+    public Game(Board board,MapRenderer mapRenderer) {
         this.board = board;
+        this.mapRenderer = mapRenderer;
     }
 
     public void gameLoop(){
+        boolean isWhiteToMove = true;
         while (true){
             mapRenderer.render(board);
-            Coordinates sourceCoordinates = InputCoordinates.
+            Coordinates sourceCoordinates = InputCoordinates.inputPieceCoordinatesForColor(
+                    isWhiteToMove ? Color.WHITE:Color.BLACK,board);
+            Piece piece = board.getPiece(sourceCoordinates);
+            Coordinates targetCoordinates = InputCoordinates.targetCoordinatesApproval(
+                    piece,sourceCoordinates,board);
+            piece.move(sourceCoordinates,targetCoordinates,board);
+            isWhiteToMove =! isWhiteToMove;
         }
     }
 }
