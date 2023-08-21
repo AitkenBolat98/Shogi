@@ -1,10 +1,12 @@
 package org.example.Piece;
 
 import org.example.Color;
+import org.example.CoordinateChange;
 import org.example.Coordinates;
 import org.example.Board;
 
 public class Pawn extends Piece {
+    private CoordinateChange changeInCoordinates = new CoordinateChange();
     public Pawn(Color color, Coordinates coordinates) {
         super(color, coordinates);
         this.name = "P";
@@ -12,16 +14,15 @@ public class Pawn extends Piece {
 
     @Override
     public void move(Coordinates from, Coordinates to,Board board) {
-        if (super.isNotOutOfBounds(to) && isMoveSatisfyLimit(from, to) && isPathAvailable(board,from,to)) {
             Piece piece = board.getPiece(from);
             board.deletePiece(from);
             board.setPiece(to,piece);
-        }
+
     }
 
     @Override
     public boolean isMoveSatisfyLimit(Coordinates from, Coordinates to) {
-        int change = to.vertical - from.vertical;
+        int change = changeInCoordinates.differenceInCoordinatesVertical(from,to);
         if (change == 1 || change == -1) {
             return true;
         } else {
@@ -43,5 +44,6 @@ public class Pawn extends Piece {
             return true;
         }
     }
+
 }
 

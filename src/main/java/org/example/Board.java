@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.Piece.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -9,7 +10,7 @@ import java.util.Objects;
 public class Board {
     private HashMap<Coordinates, Piece> board = new HashMap();
 
-    private List<Piece> hold;
+    private List<Piece> hold = new ArrayList<>();
     public void setDefaultPositions(){
         //set Pawns
         for(int i = 0; i < 9; i++){

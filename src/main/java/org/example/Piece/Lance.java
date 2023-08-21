@@ -27,4 +27,6 @@ public class Lance extends Piece{
     }
 
 
+
+
 }

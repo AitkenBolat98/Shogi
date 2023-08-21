@@ -26,4 +26,9 @@ public class SilverGeneral extends Piece{
         return false;
     }
 
+    @Override
+    public void eatEnemy(Board board, Coordinates to) {
+
+    }
+
 }

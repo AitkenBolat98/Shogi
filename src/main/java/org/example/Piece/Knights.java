@@ -26,4 +26,6 @@ public class Knights extends Piece{
         return false;
     }
 
+
+
 }
