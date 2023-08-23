@@ -13,14 +13,6 @@ public class Rook extends Piece{
     }
 
     @Override
-    public void move(Coordinates from, Coordinates to, Board board) {
-        Piece piece = board.getPiece(from);
-        board.deletePiece(from);
-        board.setPiece(to,piece);
-    }
-
-
-    @Override
     public boolean isMoveSatisfyLimit(Coordinates from, Coordinates to) {
         int changeInVertical = changeInCoordinates.differenceInCoordinatesVertical(from,to);
         int changeInHorizontal = changeInCoordinates.differenceInCoordinatesHorizontal(from,to);
@@ -44,13 +36,13 @@ public class Rook extends Piece{
                     if (isNewCoordinatesOccupied(newHorizontal, from.vertical, board)) {
                         return false;
                     }
-                    changeInHorizontal +=1;
+                    changeInHorizontal -=1;
                 }else {
                     newHorizontal -= 1;
                     if(isNewCoordinatesOccupied(newHorizontal,from.vertical,board)){
                         return false;
                     }
-                    changeInHorizontal -=1;
+                    changeInHorizontal +=1;
                 }
             }
         }else{
@@ -60,21 +52,22 @@ public class Rook extends Piece{
                     if(isNewCoordinatesOccupied(from.horizontal,newVertical,board)){
                         return false;
                     }
-                    changeInVertical += 1;
+                    changeInVertical -= 1;
                 }else {
                     newVertical -=1;
                     if(isNewCoordinatesOccupied(from.horizontal,newVertical,board)){
                         return false;
                     }
-                    changeInVertical -= 1;
+                    changeInVertical += 1;
                 }
             }
         }
         if(board.containsPiece(to)){
             if(board.isEnemy(from,to)){
                 eatEnemy(board,to);
+            }else {
+                return false;
             }
-            return false;
         }
         return true;
     }

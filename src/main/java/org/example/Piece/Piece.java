@@ -14,7 +14,6 @@ abstract public class Piece {
         this.color = color;
         this.coordinates = coordinates;
     }
-    abstract public void move(Coordinates from, Coordinates to, Board board);
     public String getName() {
         return name;
     }
@@ -24,6 +23,12 @@ abstract public class Piece {
         }else {
             return false;
         }
+    }
+
+    public void move(Coordinates from,Coordinates to,Board board){
+        Piece piece = board.getPiece(from);
+        board.deletePiece(from);
+        board.setPiece(to,piece);
     }
 
     abstract public boolean isMoveSatisfyLimit(Coordinates from,Coordinates to);

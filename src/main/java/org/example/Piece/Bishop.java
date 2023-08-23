@@ -15,12 +15,6 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public void move(Coordinates from, Coordinates to, Board board) {
-
-    }
-
-
-    @Override
     public boolean isMoveSatisfyLimit(Coordinates from, Coordinates to) {
         int changeHorizontal = changeInCoordinates.differenceInCoordinatesHorizontal(from, to);
         int changeVertical = changeInCoordinates.differenceInCoordinatesVertical(from, to);
@@ -81,8 +75,9 @@ public class Bishop extends Piece {
         if(board.containsPiece(to)){
             if(board.isEnemy(from,to)){
                 eatEnemy(board,to);
+            }else {
+                return false;
             }
-            return false;
         }
         return true;
     }
