@@ -1,60 +1,40 @@
 package org.example.Piece;
 
 import org.example.Color;
-import org.example.CoordinateChange;
 import org.example.Coordinates;
 import org.example.Board;
 
+import java.util.Set;
+
 public class Lance extends Piece{
 
-    private CoordinateChange changeInCoordinates = new CoordinateChange();
     public Lance(Color color, Coordinates coordinates) {
         super(color, coordinates);
         this.name = "L";
     }
 
-
     @Override
-    public boolean isMoveSatisfyLimit(Coordinates from, Coordinates to) {
-        int horizontalChange = changeInCoordinates.differenceInCoordinatesHorizontal(from,to);
-        if(horizontalChange != 0){
-            return false;
+    public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board) {
+        if(color == Color.BLACK){
+            for(int i = from.vertical-1; i == to.vertical; i--){
+                Coordinates newCoordinatesBlack = new Coordinates(i,from.horizontal);
+                if(board.containsPiece(newCoordinatesBlack) && !board.isEnemy(from,newCoordinatesBlack)){
+                    break;
+                }
+                possibleSet.add(newCoordinatesBlack);
+            }
+        }else {
+            for(int j = from.vertical+1; j == to.vertical; j++){
+                Coordinates newCoordinatesWhite = new Coordinates(j,from.horizontal);
+                if(board.containsPiece(newCoordinatesWhite)){
+                    break;
+                }
+                possibleSet.add(newCoordinatesWhite);
+            }
         }
-        return true;
+
+        return possibleSet;
     }
-
-    @Override
-    public boolean isPathAvailable(Board board, Coordinates from, Coordinates to) {
-        int verticalChange = changeInCoordinates.differenceInCoordinatesVertical(from,to);
-        int newVertical = from.vertical;
-        while (Math.abs(verticalChange) != 1){
-            if(verticalChange > 0){
-                newVertical += 1;
-                if(isNewCoordinatesOccupied(from.horizontal,newVertical,board)){
-                    return false;
-                }else {
-                    verticalChange += 1;
-                }
-            }else {
-                newVertical -= 1;
-                if(isNewCoordinatesOccupied(from.horizontal,newVertical,board)){
-                    return false;
-                }else {
-                    verticalChange -= 1;
-                }
-            }
-            if(board.containsPiece(to)){
-                if(board.isEnemy(from,to)){
-                    eatEnemy(board,to);
-                }else {
-                    return false;
-                }
-            }
-
-        }return true;
-    }
-
-
 
 
 }

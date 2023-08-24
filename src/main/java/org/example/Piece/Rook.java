@@ -1,77 +1,35 @@
 package org.example.Piece;
 
 import org.example.Color;
-import org.example.CoordinateChange;
 import org.example.Coordinates;
 import org.example.Board;
 
+import java.util.Set;
+
 public class Rook extends Piece{
-    private CoordinateChange changeInCoordinates = new CoordinateChange();
     public Rook(Color color, Coordinates coordinates) {
         super(color, coordinates);
         this.name = "R";
     }
 
     @Override
-    public boolean isMoveSatisfyLimit(Coordinates from, Coordinates to) {
-        int changeInVertical = changeInCoordinates.differenceInCoordinatesVertical(from,to);
-        int changeInHorizontal = changeInCoordinates.differenceInCoordinatesHorizontal(from,to);
-
-        if((changeInVertical != 0 && changeInHorizontal == 0) || (changeInVertical == 0 && changeInHorizontal != 0 )){
-            return true;
+    public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board) {
+        for(int i = 0; i < 8;i++) {
+            Coordinates possibleHorizontalCoordinates = new Coordinates(from.vertical, i);
+            if (board.containsPiece(possibleHorizontalCoordinates) && !board.isEnemy(from, possibleHorizontalCoordinates)) {
+                break;
+            }
+            possibleSet.add(possibleHorizontalCoordinates);
         }
-        return false;
+        for(int j = 0; j < 8;j++){
+            Coordinates possibleVerticalCoordinates = new Coordinates(j, from.horizontal);
+            if(board.containsPiece(possibleVerticalCoordinates) && !board.isEnemy(from,possibleVerticalCoordinates)){
+                break;
+            }
+            possibleSet.add(possibleVerticalCoordinates);
+        }
+        return possibleSet;
     }
-
-    @Override
-    public boolean isPathAvailable(Board board, Coordinates from, Coordinates to) {
-        int changeInVertical = changeInCoordinates.differenceInCoordinatesVertical(from,to);
-        int changeInHorizontal = changeInCoordinates.differenceInCoordinatesHorizontal(from,to);
-        Integer newVertical = from.vertical;
-        Integer newHorizontal = from.horizontal;
-        if(changeInVertical == 0){
-            while (changeInHorizontal != 1) {
-                if (changeInHorizontal > 0) {
-                    newHorizontal += 1;
-                    if (isNewCoordinatesOccupied(newHorizontal, from.vertical, board)) {
-                        return false;
-                    }
-                    changeInHorizontal -=1;
-                }else {
-                    newHorizontal -= 1;
-                    if(isNewCoordinatesOccupied(newHorizontal,from.vertical,board)){
-                        return false;
-                    }
-                    changeInHorizontal +=1;
-                }
-            }
-        }else{
-            while (changeInVertical != 1){
-                if(changeInVertical > 0){
-                    newVertical += 1;
-                    if(isNewCoordinatesOccupied(from.horizontal,newVertical,board)){
-                        return false;
-                    }
-                    changeInVertical -= 1;
-                }else {
-                    newVertical -=1;
-                    if(isNewCoordinatesOccupied(from.horizontal,newVertical,board)){
-                        return false;
-                    }
-                    changeInVertical += 1;
-                }
-            }
-        }
-        if(board.containsPiece(to)){
-            if(board.isEnemy(from,to)){
-                eatEnemy(board,to);
-            }else {
-                return false;
-            }
-        }
-        return true;
-    }
-
 
 
 }

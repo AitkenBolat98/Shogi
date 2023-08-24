@@ -59,10 +59,8 @@ public class InputCoordinates {
         while (true) {
             System.out.println("enter coordinates to move");
             Coordinates targetCoordinates = input();
-            if (piece.isNotOutOfBounds(sourceCoordinates) &&
-                    piece.isMoveSatisfyLimit(sourceCoordinates, targetCoordinates) &&
-                    piece.isPathAvailable(board, sourceCoordinates, targetCoordinates)) {
-                return targetCoordinates;
+            if (piece.availableCoordinates(sourceCoordinates,targetCoordinates,board).contains(targetCoordinates)){
+                return  targetCoordinates;
             }else {
                 System.out.println("invalid target coordinates");
                 continue;

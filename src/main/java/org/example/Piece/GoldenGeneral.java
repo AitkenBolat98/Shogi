@@ -1,55 +1,40 @@
 package org.example.Piece;
 
 import org.example.Color;
-import org.example.CoordinateChange;
 import org.example.Coordinates;
 import org.example.Board;
 
+import java.util.Set;
+
 public class GoldenGeneral extends Piece {
 
-    private final CoordinateChange changeInCoordinates = new CoordinateChange();
     public GoldenGeneral(Color color, Coordinates coordinates) {
         super(color, coordinates);
         this.name = "G";
     }
 
     @Override
-    public boolean isMoveSatisfyLimit(Coordinates from, Coordinates to) {
-        int changeInVertical = changeInCoordinates.differenceInCoordinatesVertical(from, to);
-        int changeInHorizontal = changeInCoordinates.differenceInCoordinatesHorizontal(from, to);
-        if(color == Color.BLACK) {
-            if ((changeInHorizontal == -1 && changeInVertical == 1) ||
-                    (changeInHorizontal == 1 && changeInVertical == -1)) {
-                return false;
+    public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board) {
+        for(int j = -1;j < 2; j ++){
+            for(int i = -1;i < 2;i++){
+                if(j == 1 && i ==-1){
+                    continue;
+                }
+                if(j == 1 && i == 1){
+                    continue;
+                }
+                if(j == 0 && i == 0){
+                    continue;
+                }
+                Coordinates newCoordinates = new Coordinates(from.vertical+j,from.horizontal+i);
+                if(board.containsPiece(newCoordinates) && !board.isEnemy(from,newCoordinates)){
+                    continue;
+                }
+                possibleSet.add(newCoordinates);
+                }
             }
-            if (Math.abs(changeInHorizontal) > 1 || Math.abs(changeInVertical) > 1) {
-                return false;
-            }
-            return true;
-        }else {
-            if ((changeInHorizontal == -1 && changeInVertical == -1) ||
-                    (changeInHorizontal == 1 && changeInVertical == -1)) {
-                return false;
-            }
-            if (Math.abs(changeInHorizontal) > 1 || Math.abs(changeInVertical) > 1) {
-                return false;
-            }
-            return true;
-        }
+        return  possibleSet;
     }
 
-    @Override
-    public boolean isPathAvailable(Board board, Coordinates from, Coordinates to) {
-        if (board.containsPiece(to)) {
-            if (board.isEnemy(from, to)) {
-                board.putInHold(board.getPiece(to));
-                board.deletePiece(to);
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return true;
-        }
-    }
+
 }

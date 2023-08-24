@@ -82,6 +82,27 @@ public class Board {
             return false;
         }
     }
+
+    public boolean isCellUnderAttack(Coordinates to,Color color){
+        List<Piece> enemyPieces = getPiecesByColor(color);
+        for(int i = 0; i < enemyPieces.size()-1;i++){
+            if(board.containsKey(enemyPieces.get(i).possibleSet.contains(to))){
+                return true;
+            }else {
+            }
+        }
+        return false;
+    }
+
+    public List<Piece> getPiecesByColor(Color color){
+        List<Piece> result = new ArrayList<>();
+        for (Piece piece:board.values()){
+            if(piece.color == color){
+                result.add(piece);
+            }
+        }
+        return result;
+    }
     public void putInHold(Piece piece){
         hold.add(piece);
     }
