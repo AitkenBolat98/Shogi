@@ -8,9 +8,20 @@ import java.util.List;
 import java.util.Objects;
 
 public class Board {
+
+    private static Board uniqueBoard;
     private HashMap<Coordinates, Piece> board = new HashMap();
 
-    private List<Piece> hold = new ArrayList<>();
+    private Board(){
+    }
+
+    public static Board getUniqueBoard(){
+        if(uniqueBoard == null){
+            uniqueBoard = new Board();
+        }
+
+        return uniqueBoard;
+    }
     public void setDefaultPositions(){
         //set Pawns
         for(int i = 0; i < 9; i++){
@@ -63,7 +74,7 @@ public class Board {
 
 
     public void setPiece(Coordinates coordinates,Piece piece){
-        piece.coordinates = coordinates;
+        piece.setCoordinates(coordinates);
         board.put(coordinates,piece);
     }
     public boolean containsPiece(Coordinates coordinates){
@@ -76,7 +87,7 @@ public class Board {
     public boolean isEnemy(Coordinates from,Coordinates to){
         Piece pieceFrom = getPiece(from);
         Piece pieceTo = getPiece(to);
-        if(pieceFrom.color != pieceTo.color){
+        if(pieceFrom.getColor() != pieceTo.getColor()){
             return true;
         }else{
             return false;
@@ -97,16 +108,16 @@ public class Board {
     public List<Piece> getPiecesByColor(Color color){
         List<Piece> result = new ArrayList<>();
         for (Piece piece:board.values()){
-            if(piece.color == color){
+            if(piece.getColor() == color){
                 result.add(piece);
             }
         }
         return result;
     }
     public void putInHold(Piece piece){
-        hold.add(piece);
+        Hold hold = Hold.getUniqueHold();
+        hold.addToHold(piece);
     }
-
     public void deletePiece(Coordinates coordinates){
         board.remove(coordinates);
     }

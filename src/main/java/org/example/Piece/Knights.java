@@ -18,7 +18,7 @@ public class Knights extends Piece{
 
         ArrayList<Coordinates> listOfPossibleCoordinates = new ArrayList<>();
 
-        if(color == Color.WHITE){
+        if(getColor() == Color.WHITE){
 
             Coordinates whiteOptionOne = new Coordinates(from.vertical+2,from.horizontal-1);
             Coordinates whiteOptionTwo = new Coordinates(from.vertical+2,from.horizontal+1);

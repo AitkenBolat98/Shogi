@@ -14,10 +14,21 @@ public class Pawn extends Piece {
 
     @Override
     public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board) {
-        if(Math.abs(to.vertical - from.vertical) == 1 ){
-            possibleSet.add(to);
+        Piece piece = board.getPiece(from);
+        if(!piece.isPromoted) {
+            if (getColor() == Color.WHITE) {
+                if (to.vertical - from.vertical == 1) {
+                    possibleSet.add(to);
+                }
+            } else {
+                if (to.vertical - from.vertical == -1) {
+                    possibleSet.add(to);
+                }
+            }
+            return possibleSet;
+        }else {
+
         }
-        return possibleSet;
     }
 
 

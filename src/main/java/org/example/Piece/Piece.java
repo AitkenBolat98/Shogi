@@ -5,16 +5,17 @@ import org.example.Coordinates;
 import org.example.Board;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 abstract public class Piece {
 
-    public Coordinates coordinates;
-    public Color color;
+    private Coordinates coordinates;
+    private Color color;
     protected boolean isPromoted = false;
     protected String name;
 
-    public HashSet<Coordinates> possibleSet;
+    public HashSet<Coordinates> possibleSet = new HashSet<>();
     public Piece(Color color,Coordinates coordinates){
         this.color = color;
         this.coordinates = coordinates;
@@ -24,6 +25,9 @@ abstract public class Piece {
     }
 
     public void move(Coordinates from,Coordinates to,Board board){
+        if(board.containsPiece(to)){
+            eatEnemy(board,to);
+        }
         Piece piece = board.getPiece(from);
         board.deletePiece(from);
         board.setPiece(to,piece);
@@ -36,12 +40,37 @@ abstract public class Piece {
         board.putInHold(pieceTo);
         board.deletePiece(to);
     }
-
-    public boolean isNewCoordinatesOccupied(Integer newHorizontal, Integer newVertical, Board board) {
-        Coordinates newCoordinates = new Coordinates(newVertical, newHorizontal);
-        if (board.containsPiece(newCoordinates)) {
+    public boolean isPieceInPromotionZone(Coordinates coordinates,Piece piece){
+        HashSet<Coordinates> promotionZone = coordinates.promotionZone(piece);
+        if(promotionZone.contains(coordinates)){
             return true;
         }
         return false;
     }
+
+    public void promotePiece(Piece piece){
+        piece.isPromoted = true;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public boolean isPromoted() {
+        return isPromoted;
+    }
+
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public void setPromoted(boolean promoted) {
+        isPromoted = promoted;
+    }
+
 }

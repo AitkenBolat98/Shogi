@@ -15,7 +15,7 @@ public class King extends Piece{
     @Override
     public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board) {
         Color enemyColor;
-        if(color == Color.BLACK){
+        if(getColor() == Color.BLACK){
             enemyColor = Color.WHITE;
         }else {
             enemyColor = Color.BLACK;

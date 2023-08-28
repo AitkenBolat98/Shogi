@@ -1,7 +1,16 @@
 package org.example;
 
 public class MapRenderer {
+    private static MapRenderer uniqueMapRenderer;
 
+    private MapRenderer(){}
+
+    public static MapRenderer getUniqueMapRenderer(){
+        if(uniqueMapRenderer == null){
+            uniqueMapRenderer = new MapRenderer();
+        }
+        return uniqueMapRenderer;
+    }
     public void render(Board board){
         System.out.print(" |");
         for (int i = 0; i < 9; i++) {

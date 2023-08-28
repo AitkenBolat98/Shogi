@@ -15,7 +15,7 @@ public class Lance extends Piece{
 
     @Override
     public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board) {
-        if(color == Color.BLACK){
+        if(getColor() == Color.BLACK){
             for(int i = from.vertical-1; i == to.vertical; i--){
                 Coordinates newCoordinatesBlack = new Coordinates(i,from.horizontal);
                 if(board.containsPiece(newCoordinatesBlack) && !board.isEnemy(from,newCoordinatesBlack)){

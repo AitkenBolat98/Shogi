@@ -38,6 +38,16 @@ public class InputCoordinates {
         }
 
     }
+    public static Coordinates inputReturnedPieceCoordinates(Board board){
+        while (true) {
+            Coordinates coordinates = input();
+            if (board.containsPiece(coordinates)){
+                continue;
+            }else {
+                return coordinates;
+            }
+        }
+    }
 
     public static Coordinates inputPieceCoordinatesForColor(Color color, Board board) {
         while (true) {
@@ -48,7 +58,7 @@ public class InputCoordinates {
                 continue;
             }
             Piece piece = board.getPiece(coordinates);
-            if (piece.color != color) {
+            if (piece.getColor() != color) {
                 System.out.println("wrong color chosen");
             }
             return coordinates;
