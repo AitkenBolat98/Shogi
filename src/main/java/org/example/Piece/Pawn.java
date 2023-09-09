@@ -25,10 +25,10 @@ public class Pawn extends Piece {
                     possibleSet.add(to);
                 }
             }
-            return possibleSet;
         }else {
-
+            possibleSet = availableCoordinatesAsPromoted(from,board);
         }
+        return possibleSet;
     }
 
 

@@ -15,26 +15,30 @@ public class Lance extends Piece{
 
     @Override
     public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board) {
-        if(getColor() == Color.BLACK){
-            for(int i = from.vertical-1; i == to.vertical; i--){
-                Coordinates newCoordinatesBlack = new Coordinates(i,from.horizontal);
-                if(board.containsPiece(newCoordinatesBlack) && !board.isEnemy(from,newCoordinatesBlack)){
-                    break;
+        Piece piece = board.getPiece(from);
+        if (!piece.isPromoted) {
+            if (getColor() == Color.BLACK) {
+                for (int i = from.vertical - 1; i == to.vertical; i--) {
+                    Coordinates newCoordinatesBlack = new Coordinates(i, from.horizontal);
+                    if (board.containsPiece(newCoordinatesBlack) && !board.isEnemy(from, newCoordinatesBlack)) {
+                        break;
+                    }
+                    possibleSet.add(newCoordinatesBlack);
                 }
-                possibleSet.add(newCoordinatesBlack);
-            }
-        }else {
-            for(int j = from.vertical+1; j == to.vertical; j++){
-                Coordinates newCoordinatesWhite = new Coordinates(j,from.horizontal);
-                if(board.containsPiece(newCoordinatesWhite)){
-                    break;
+            } else {
+                for (int j = from.vertical + 1; j == to.vertical; j++) {
+                    Coordinates newCoordinatesWhite = new Coordinates(j, from.horizontal);
+                    if (board.containsPiece(newCoordinatesWhite) && !board.isEnemy(from,newCoordinatesWhite)) {
+                        break;
+                    }
+                    possibleSet.add(newCoordinatesWhite);
                 }
-                possibleSet.add(newCoordinatesWhite);
             }
-        }
 
+        }else {
+            possibleSet = availableCoordinatesAsPromoted(from,board);
+        }
         return possibleSet;
     }
-
 
 }

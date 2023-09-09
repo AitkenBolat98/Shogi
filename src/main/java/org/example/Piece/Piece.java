@@ -5,13 +5,13 @@ import org.example.Coordinates;
 import org.example.Board;
 
 import java.util.HashSet;
-import java.util.Objects;
+
 import java.util.Set;
 
 abstract public class Piece {
 
     private Coordinates coordinates;
-    private Color color;
+    private final Color color;
     protected boolean isPromoted = false;
     protected String name;
 
@@ -24,6 +24,7 @@ abstract public class Piece {
         return name;
     }
 
+
     public void move(Coordinates from,Coordinates to,Board board){
         if(board.containsPiece(to)){
             eatEnemy(board,to);
@@ -35,8 +36,31 @@ abstract public class Piece {
 
     abstract public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board);
 
+    public HashSet<Coordinates> availableCoordinatesAsPromoted(Coordinates from,Board board){
+        for(int j = -1;j < 2; j ++){
+            for(int i = -1;i < 2;i++){
+                if(j == 1 && i ==-1){
+                    continue;
+                }
+                if(j == 1 && i == 1){
+                    continue;
+                }
+                if(j == 0 && i == 0){
+                    continue;
+                }
+                Coordinates newCoordinates = new Coordinates(from.vertical+j,from.horizontal+i);
+                if(board.containsPiece(newCoordinates) && !board.isEnemy(from,newCoordinates)){
+                    continue;
+                }
+                possibleSet.add(newCoordinates);
+            }
+        }
+        return  possibleSet;
+    }
+
     public void eatEnemy(Board board, Coordinates to){
         Piece pieceTo = board.getPiece(to);
+        pieceTo.setPromoted(false);
         board.putInHold(pieceTo);
         board.deletePiece(to);
     }

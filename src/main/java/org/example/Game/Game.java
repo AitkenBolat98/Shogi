@@ -1,5 +1,6 @@
-package org.example;
+package org.example.Game;
 
+import org.example.*;
 import org.example.Piece.Piece;
 
 import java.util.ArrayList;

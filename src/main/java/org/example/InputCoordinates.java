@@ -60,6 +60,7 @@ public class InputCoordinates {
             Piece piece = board.getPiece(coordinates);
             if (piece.getColor() != color) {
                 System.out.println("wrong color chosen");
+                continue;
             }
             return coordinates;
         }

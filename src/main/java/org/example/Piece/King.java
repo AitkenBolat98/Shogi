@@ -14,23 +14,17 @@ public class King extends Piece{
 
     @Override
     public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board) {
-        Color enemyColor;
-        if(getColor() == Color.BLACK){
-            enemyColor = Color.WHITE;
-        }else {
-            enemyColor = Color.BLACK;
-        }
         for(int j = -1;j < 2; j ++){
             for(int i = -1;i < 2;i++){
                 if(i == 0 & j == 0){
                     continue;
                 }
                 Coordinates newCoordinates = new Coordinates(from.vertical+j,from.horizontal+i);
-                if (board.containsPiece(newCoordinates) && board.isEnemy(from, newCoordinates)) {
+                if (board.containsPiece(newCoordinates) && !board.isEnemy(from, newCoordinates)) {
                     continue;
                 }
 
-                if(board.isCellUnderAttack(newCoordinates,enemyColor)){
+                if(board.isCellUnderAttack(newCoordinates,getColor().opposite())){
                     continue;
                 }
                 possibleSet.add(newCoordinates);
