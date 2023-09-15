@@ -3,6 +3,6 @@ package org.example.Game;
 public enum GameState {
 
     ONGOING,
-    CHECKMATETOWHITE,
-    CHECKMATETOBLACK
+    CHECKMATE_TO_WHITE,
+    CHECKMATE_TO_BLACK
 }

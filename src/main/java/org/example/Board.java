@@ -93,16 +93,16 @@ public class Board {
             return false;
         }
     }
+///    board.containsKey(enemyPieces.get(i).possibleSet.contains(to)
 
     public boolean isCellUnderAttack(Coordinates to,Color color){
         List<Piece> enemyPieces = getPiecesByColor(color);
-        for(int i = 0; i < enemyPieces.size()-1;i++){
-            if(board.containsKey(enemyPieces.get(i).possibleSet.contains(to))){
-                return true;
-            }else {
+        for(Piece piece:enemyPieces){
+            if(piece.availableCoordinates(piece.getCoordinates(),to,this).size() != 0 ){
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public List<Piece> getPiecesByColor(Color color){

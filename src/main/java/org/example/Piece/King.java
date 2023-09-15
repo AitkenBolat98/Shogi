@@ -4,6 +4,9 @@ import org.example.Color;
 import org.example.Coordinates;
 import org.example.Board;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class King extends Piece{
@@ -32,5 +35,7 @@ public class King extends Piece{
             }
         return possibleSet;
     }
+
+
 
 }

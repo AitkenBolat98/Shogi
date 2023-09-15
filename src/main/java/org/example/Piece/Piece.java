@@ -36,7 +36,7 @@ abstract public class Piece {
 
     abstract public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board);
 
-    public HashSet<Coordinates> availableCoordinatesAsPromoted(Coordinates from,Board board){
+    protected HashSet<Coordinates> availableCoordinatesAsPromoted(Coordinates from,Board board){
         for(int j = -1;j < 2; j ++){
             for(int i = -1;i < 2;i++){
                 if(j == 1 && i ==-1){

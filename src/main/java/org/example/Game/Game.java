@@ -4,32 +4,35 @@ import org.example.*;
 import org.example.Piece.Piece;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 public class Game {
     private final Board board;
     private final MapRenderer mapRenderer;
     static Scanner scanner = new Scanner(System.in);
-
+    List<GameStateChecker> gameStateCheckerList = List.of(new GameStateChecker());
     public Game(Board board,MapRenderer mapRenderer) {
         this.board = board;
         this.mapRenderer = mapRenderer;
     }
 
     public void gameLoop(){
-        boolean isWhiteToMove = true;
-        while (true){
+        Color colorToMove = Color.WHITE;
+        GameState state = determineGameState(board,colorToMove);
+        while (state == GameState.ONGOING){
             mapRenderer.render(board);
-            if(playerWantToReturnPieceFromHold(isWhiteToMove ? Color.WHITE:Color.BLACK)){
+            if(playerWantToReturnPieceFromHold(colorToMove)){
                 Hold hold = Hold.getUniqueHold();
-                hold.displayPiecesInHold(isWhiteToMove ? Color.WHITE:Color.BLACK);
-                Piece chosenPiece = playerChosenPieceFromHold(isWhiteToMove ? Color.WHITE:Color.BLACK);
+                hold.displayPiecesInHold(colorToMove);
+                Piece chosenPiece = playerChosenPieceFromHold(colorToMove);
                 Coordinates coordinatesForChosenPiece = InputCoordinates.inputReturnedPieceCoordinates(board);
                 hold.returnFromHold(chosenPiece,coordinatesForChosenPiece);
-                isWhiteToMove = !isWhiteToMove;
+                colorToMove = colorToMove.opposite();
             }else {
                 Coordinates sourceCoordinates = InputCoordinates.inputPieceCoordinatesForColor(
-                        isWhiteToMove ? Color.WHITE : Color.BLACK, board);
+                        colorToMove, board);
                 Piece chosenPiece = board.getPiece(sourceCoordinates);
                 Coordinates targetCoordinates = InputCoordinates.targetCoordinatesApproval(
                         chosenPiece, sourceCoordinates, board);
@@ -38,10 +41,26 @@ public class Game {
                 if(chosenPiece.isPieceInPromotionZone(targetCoordinates,chosenPiece)){
                     chosenPiece.promotePiece(chosenPiece);
                 }
-                isWhiteToMove = !isWhiteToMove;
+                colorToMove = colorToMove.opposite();
+                state = determineGameState(board,colorToMove);
+
+                }
+            }
+        mapRenderer.render(board);
+        System.out.println("Game Ended with state: " + state);
+        }
+
+    private GameState determineGameState(Board board, Color color) {
+        for (GameStateChecker checker : gameStateCheckerList) {
+            GameState state = checker.check(board,color);
+            if(state != GameState.ONGOING){
+                return state;
             }
         }
+        return GameState.ONGOING;
     }
+
+
     public boolean playerWantToReturnPieceFromHold(Color color){
         Hold hold = Hold.getUniqueHold();
         if(hold.isHoldEmptyForColor(color)){

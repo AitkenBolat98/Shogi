@@ -15,29 +15,39 @@ public class Bishop extends Piece {
     @Override
     public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board) {
         Piece piece = board.getPiece(from);
-        for (int i = 8; i > 0; i--) {
-            Coordinates possibleCoordinatesBottomToTop = new Coordinates(8, 8-i);
-            if (board.containsPiece(possibleCoordinatesBottomToTop) && !board.isEnemy(from, possibleCoordinatesBottomToTop)) {
-                break;
-            }
-            possibleSet.add(possibleCoordinatesBottomToTop);
-        }
-        for (int j = 0; j < 9; j++) {
-            Coordinates possibleCoordinatesTopToBottom = new Coordinates(j, j);
-            if (board.containsPiece(possibleCoordinatesTopToBottom) && !board.isEnemy(from, possibleCoordinatesTopToBottom)) {
-                break;
-            }
-            possibleSet.add(possibleCoordinatesTopToBottom);
-        }
-        if(piece.isPromoted){
-            for(int j = -1;j < 2; j ++) {
-                for (int i = -1; i < 2; i++) {
-                    if (i == 0 & j == 0) {
-                        continue;
-                    }
-                    Coordinates newCoordinates = new Coordinates(from.vertical+j,from.horizontal+i);
-                    possibleSet.add(newCoordinates);
+        if(getColor() == Color.BLACK) {
+            for (int i = 8; i > 0; i--) {
+                Coordinates possibleCoordinatesBottomToTop = new Coordinates(8, 8 - i);
+                if (board.containsPiece(possibleCoordinatesBottomToTop) && !board.isEnemy(from, possibleCoordinatesBottomToTop)) {
+                    break;
                 }
+                possibleSet.add(possibleCoordinatesBottomToTop);
+            }
+            int shift = 1;
+            while(to.vertical-from.vertical != -1 || to.horizontal - from.horizontal != -1){
+                Coordinates possibleCoordinatesTopToBottom = new Coordinates(from.vertical-shift,from.horizontal-shift);
+                if(board.containsPiece(possibleCoordinatesTopToBottom) && !board.isEnemy(from,possibleCoordinatesTopToBottom)){
+                    break;
+                }
+                possibleSet.add(possibleCoordinatesTopToBottom);
+                shift += 1;
+            }
+        }else {
+            for (int j = 0; j < 9; j++) {
+                Coordinates possibleCoordinatesTopToBottom = new Coordinates(j, j);
+                if (board.containsPiece(possibleCoordinatesTopToBottom) && !board.isEnemy(from, possibleCoordinatesTopToBottom)) {
+                    break;
+                }
+                possibleSet.add(possibleCoordinatesTopToBottom);
+            }
+            int shift = 1;
+            while(to.vertical+shift != 9 || to.horizontal - shift != -1){
+                Coordinates possibleCoordinatesTopToBottom = new Coordinates(from.vertical+shift,from.horizontal+shift);
+                if(board.containsPiece(possibleCoordinatesTopToBottom) && !board.isEnemy(from,possibleCoordinatesTopToBottom)){
+                    break;
+                }
+                possibleSet.add(possibleCoordinatesTopToBottom);
+                shift += 1;
             }
         }
         if(piece.isPromoted){
