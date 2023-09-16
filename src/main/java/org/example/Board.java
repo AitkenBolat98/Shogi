@@ -29,29 +29,29 @@ public class Board {
             setPiece(new Coordinates(6,i),new Pawn(Color.BLACK,new Coordinates(7,i)));
         }
         //set Lances
-        setPiece(new Coordinates(0,0),new Lance(Color.WHITE,new Coordinates(0,0)));
-        setPiece(new Coordinates(0,8),new Lance(Color.WHITE,new Coordinates(0,8)));
+        /*setPiece(new Coordinates(0,0),new Lance(Color.WHITE,new Coordinates(0,0)));
+        setPiece(new Coordinates(0,8),new Lance(Color.WHITE,new Coordinates(0,8)));*/
         setPiece(new Coordinates(8,0),new Lance(Color.BLACK,new Coordinates(8,0)));
         setPiece(new Coordinates(8,8),new Lance(Color.BLACK,new Coordinates(8,8)));
 
         //set Knights
 
-        setPiece(new Coordinates(0,1),new Knights(Color.WHITE,new Coordinates(0,1)));
-        setPiece(new Coordinates(0,7),new Knights(Color.WHITE,new Coordinates(0,7)));
+        /*setPiece(new Coordinates(0,1),new Knights(Color.WHITE,new Coordinates(0,1)));
+        setPiece(new Coordinates(0,7),new Knights(Color.WHITE,new Coordinates(0,7)));*/
         setPiece(new Coordinates(8,1),new Knights(Color.BLACK,new Coordinates(8,1)));
         setPiece(new Coordinates(8,7),new Knights(Color.BLACK,new Coordinates(8,7)));
 
 
         //set Silver Generals
 
-        setPiece(new Coordinates(0,2),new SilverGeneral(Color.WHITE,new Coordinates(0,2)));
-        setPiece(new Coordinates(0,6),new SilverGeneral(Color.WHITE,new Coordinates(0,6)));
+       /* setPiece(new Coordinates(0,2),new SilverGeneral(Color.WHITE,new Coordinates(0,2)));
+        setPiece(new Coordinates(0,6),new SilverGeneral(Color.WHITE,new Coordinates(0,6)));*/
         setPiece(new Coordinates(8,2),new SilverGeneral(Color.BLACK,new Coordinates(8,2)));
         setPiece(new Coordinates(8,6),new SilverGeneral(Color.BLACK,new Coordinates(8,6)));
 
         //set Golden Generals
-        setPiece(new Coordinates(0,3),new GoldenGeneral(Color.WHITE,new Coordinates(0,3)));
-        setPiece(new Coordinates(0,5),new GoldenGeneral(Color.WHITE,new Coordinates(0,5)));
+       /* setPiece(new Coordinates(0,3),new GoldenGeneral(Color.WHITE,new Coordinates(0,3)));
+        setPiece(new Coordinates(0,5),new GoldenGeneral(Color.WHITE,new Coordinates(0,5)));*/
         setPiece(new Coordinates(8,3),new GoldenGeneral(Color.BLACK,new Coordinates(8,3)));
         setPiece(new Coordinates(8,5),new GoldenGeneral(Color.BLACK,new Coordinates(8,5)));
 
@@ -60,11 +60,11 @@ public class Board {
         setPiece(new Coordinates(8,4),new King(Color.BLACK,new Coordinates(8,4)));
 
         //set Rook
-        setPiece(new Coordinates(1,7),new Rook(Color.WHITE,new Coordinates(1,7)));
+        //setPiece(new Coordinates(1,7),new Rook(Color.WHITE,new Coordinates(1,7)));
         setPiece(new Coordinates(7,7),new Rook(Color.BLACK,new Coordinates(7,7)));
 
         //set Bishop
-        setPiece(new Coordinates(1,1),new Bishop(Color.WHITE,new Coordinates(1,1)));
+        //setPiece(new Coordinates(1,1),new Bishop(Color.WHITE,new Coordinates(1,1)));
         setPiece(new Coordinates(7,1),new Bishop(Color.BLACK,new Coordinates(7,1)));
 
 
@@ -98,11 +98,25 @@ public class Board {
     public boolean isCellUnderAttack(Coordinates to,Color color){
         List<Piece> enemyPieces = getPiecesByColor(color);
         for(Piece piece:enemyPieces){
-            if(piece.availableCoordinates(piece.getCoordinates(),to,this).size() != 0 ){
-                return false;
+            if(piece instanceof King){
+                continue;
+            }
+            if(piece.availableCoordinates(piece.getCoordinates(),to,this).size() == 0 ){
+                continue;
+            }else {
+                return true;
             }
         }
-        return true;
+        return false;
+    }
+    public boolean isOutOfBounds(Coordinates coordinates){
+        if(coordinates.vertical > 8 || coordinates.vertical < 0){
+            return true;
+        }
+        if(coordinates.horizontal > 8 || coordinates.horizontal < 0){
+            return true;
+        }
+        return false;
     }
 
     public List<Piece> getPiecesByColor(Color color){

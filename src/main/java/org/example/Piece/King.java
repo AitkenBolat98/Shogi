@@ -17,12 +17,16 @@ public class King extends Piece{
 
     @Override
     public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board) {
+        possibleSet.clear();
         for(int j = -1;j < 2; j ++){
             for(int i = -1;i < 2;i++){
                 if(i == 0 & j == 0){
                     continue;
                 }
                 Coordinates newCoordinates = new Coordinates(from.vertical+j,from.horizontal+i);
+                if(board.isOutOfBounds(newCoordinates)){
+                    continue;
+                }
                 if (board.containsPiece(newCoordinates) && !board.isEnemy(from, newCoordinates)) {
                     continue;
                 }

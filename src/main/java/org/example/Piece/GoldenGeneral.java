@@ -17,6 +17,9 @@ public class GoldenGeneral extends Piece {
     public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board) {
         for(int j = -1;j < 2; j ++){
             for(int i = -1;i < 2;i++){
+                if(Math.abs(to.vertical - from.vertical)>1){
+                    continue;
+                }
                 if(j == 1 && i ==-1){
                     continue;
                 }

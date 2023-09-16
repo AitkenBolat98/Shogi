@@ -14,6 +14,7 @@ public class Pawn extends Piece {
 
     @Override
     public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board) {
+        possibleSet.clear();
         Piece piece = board.getPiece(from);
         if(!piece.isPromoted) {
             if (getColor() == Color.WHITE) {
