@@ -3,7 +3,9 @@ package org.example.Piece;
 import org.example.Color;
 import org.example.Coordinates;
 import org.example.Board;
+import org.example.CoordinatesChange;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class SilverGeneral extends Piece{
@@ -14,30 +16,17 @@ public class SilverGeneral extends Piece{
     }
 
     @Override
-    public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board) {
-        Piece piece = board.getPiece(from);
-        if (!piece.isPromoted) {
-            if(Math.abs(to.vertical - from.vertical)>1){
-                return possibleSet;
-            }
-                for (int i = -1; i < 2; i = i + 2) {
-                for (int j = -1; j < 2; j++) {
-                    if (i == 1 && j == 0) {
+    public Set<CoordinatesChange> availableCoordinates(Board board) {
+        Set<CoordinatesChange> result = new HashSet<>();
+            for(int i = -1;i < 2; i += 2){
+                for(int j = 0; j < 3;j++){
+                    if(i == -1 && j == 0){
                         continue;
                     }
-                    Coordinates newCoordinates = new Coordinates(from.vertical + i, from.horizontal + j);
-                    if(board.isOutOfBounds(newCoordinates)){
-                        continue;
-                    }
-                    if (board.containsPiece(newCoordinates) && !board.isEnemy(from, newCoordinates)) {
-                        continue;
-                    }
-                    possibleSet.add(newCoordinates);
+                    CoordinatesChange change = new CoordinatesChange(i,j);
+                    result.add(change);
                 }
             }
-        }else {
-            possibleSet = availableCoordinatesAsPromoted(from,board);
-        }
-        return possibleSet;
+        return result;
     }
 }

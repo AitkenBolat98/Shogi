@@ -3,6 +3,7 @@ package org.example.Piece;
 import org.example.Color;
 import org.example.Coordinates;
 import org.example.Board;
+import org.example.CoordinatesChange;
 
 import java.util.HashSet;
 
@@ -34,7 +35,7 @@ abstract public class Piece {
         board.setPiece(to,piece);
     }
 
-    abstract public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board);
+    abstract public Set<CoordinatesChange> availableCoordinates(Board board);
 
     protected HashSet<Coordinates> availableCoordinatesAsPromoted(Coordinates from,Board board){
         for(int j = -1;j < 2; j ++){

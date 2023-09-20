@@ -3,7 +3,9 @@ package org.example.Piece;
 import org.example.Color;
 import org.example.Coordinates;
 import org.example.Board;
+import org.example.CoordinatesChange;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Pawn extends Piece {
@@ -13,23 +15,16 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board) {
-        possibleSet.clear();
-        Piece piece = board.getPiece(from);
-        if(!piece.isPromoted) {
-            if (getColor() == Color.WHITE) {
-                if (to.vertical - from.vertical == 1) {
-                    possibleSet.add(to);
-                }
-            } else {
-                if (to.vertical - from.vertical == -1) {
-                    possibleSet.add(to);
-                }
-            }
+    public Set<CoordinatesChange> availableCoordinates(Board board) {
+        HashSet<CoordinatesChange> result = new HashSet<>();
+        if(getColor() == Color.WHITE){
+            CoordinatesChange move = new CoordinatesChange(-1,0);
+            result.add(move);
         }else {
-            possibleSet = availableCoordinatesAsPromoted(from,board);
+            CoordinatesChange move = new CoordinatesChange(1,0);
+            result.add(move);
         }
-        return possibleSet;
+        return result;
     }
 
 

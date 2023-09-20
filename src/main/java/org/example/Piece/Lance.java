@@ -3,7 +3,9 @@ package org.example.Piece;
 import org.example.Color;
 import org.example.Coordinates;
 import org.example.Board;
+import org.example.CoordinatesChange;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Lance extends Piece{
@@ -14,31 +16,20 @@ public class Lance extends Piece{
     }
 
     @Override
-    public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board) {
-        Piece piece = board.getPiece(from);
-        if (!piece.isPromoted) {
-            if (getColor() == Color.BLACK) {
-                for (int i = from.vertical - 1; i == to.vertical; i--) {
-                    Coordinates newCoordinatesBlack = new Coordinates(i, from.horizontal);
-                    if (board.containsPiece(newCoordinatesBlack) && !board.isEnemy(from, newCoordinatesBlack)) {
-                        break;
-                    }
-                    possibleSet.add(newCoordinatesBlack);
-                }
-            } else {
-                for (int j = from.vertical + 1; j == to.vertical; j++) {
-                    Coordinates newCoordinatesWhite = new Coordinates(j, from.horizontal);
-                    if (board.containsPiece(newCoordinatesWhite) && !board.isEnemy(from,newCoordinatesWhite)) {
-                        break;
-                    }
-                    possibleSet.add(newCoordinatesWhite);
-                }
+    public Set<CoordinatesChange> availableCoordinates(Board board) {
+        Set<CoordinatesChange> result = new HashSet<>();
+        if(getColor() == Color.WHITE){
+            for(int i = 1; i < 9;i ++){
+                CoordinatesChange change = new CoordinatesChange(-i,0);
+                result.add(change);
             }
-
         }else {
-            possibleSet = availableCoordinatesAsPromoted(from,board);
+            for(int i = 1; i < 9;i ++){
+                CoordinatesChange change = new CoordinatesChange(i,0);
+                result.add(change);
+            }
         }
-        return possibleSet;
+        return result;
     }
 
 }

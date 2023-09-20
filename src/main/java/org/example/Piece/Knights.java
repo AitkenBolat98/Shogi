@@ -3,8 +3,10 @@ package org.example.Piece;
 import org.example.Color;
 import org.example.Coordinates;
 import org.example.Board;
+import org.example.CoordinatesChange;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 public class Knights extends Piece {
@@ -14,38 +16,26 @@ public class Knights extends Piece {
     }
 
     @Override
-    public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board) {
+    public Set<CoordinatesChange> availableCoordinates(Board board) {
 
-        ArrayList<Coordinates> listOfPossibleCoordinates = new ArrayList<>();
-        Piece piece = board.getPiece(from);
-        if (!piece.isPromoted) {
+        Set<CoordinatesChange> result = new HashSet<>();
+
             if (getColor() == Color.WHITE) {
 
-                Coordinates whiteOptionOne = new Coordinates(from.vertical + 2, from.horizontal - 1);
-                Coordinates whiteOptionTwo = new Coordinates(from.vertical + 2, from.horizontal + 1);
+                CoordinatesChange whiteOptionOne = new CoordinatesChange(2,  - 1);
+                CoordinatesChange whiteOptionTwo = new CoordinatesChange(2, + 1);
 
-                listOfPossibleCoordinates.add(whiteOptionOne);
-                listOfPossibleCoordinates.add(whiteOptionTwo);
+                result.add(whiteOptionOne);
+                result.add(whiteOptionTwo);
             } else {
 
-                Coordinates blackOptionOne = new Coordinates(from.vertical - 2, from.horizontal - 1);
-                Coordinates blackOptionTwo = new Coordinates(from.vertical - 2, from.horizontal + 1);
+                CoordinatesChange blackOptionOne = new CoordinatesChange(2,- 1);
+                CoordinatesChange blackOptionTwo = new CoordinatesChange(2,1);
 
-                listOfPossibleCoordinates.add(blackOptionOne);
-                listOfPossibleCoordinates.add(blackOptionTwo);
+                result.add(blackOptionOne);
+                result.add(blackOptionTwo);;
             }
-            for (int i = 0; i < listOfPossibleCoordinates.size(); i++) {
-                if (board.containsPiece(listOfPossibleCoordinates.get(i)) &&
-                        board.isEnemy(from, listOfPossibleCoordinates.get(i))) {
-                    possibleSet.add(listOfPossibleCoordinates.get(i));
-                }
-                if (!board.containsPiece(listOfPossibleCoordinates.get(i))) {
-                    possibleSet.add(listOfPossibleCoordinates.get(i));
-                }
-            }
-        }else {
-            possibleSet = availableCoordinatesAsPromoted(from,board);
-        }
-        return possibleSet;
+
+        return result;
     }
 }

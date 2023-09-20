@@ -3,6 +3,7 @@ package org.example.Piece;
 import org.example.Color;
 import org.example.Coordinates;
 import org.example.Board;
+import org.example.CoordinatesChange;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,28 +17,18 @@ public class King extends Piece{
     }
 
     @Override
-    public Set<Coordinates> availableCoordinates(Coordinates from, Coordinates to, Board board) {
-        possibleSet.clear();
-        for(int j = -1;j < 2; j ++){
-            for(int i = -1;i < 2;i++){
+    public Set<CoordinatesChange> availableCoordinates(Board board) {
+        Set<CoordinatesChange> result = new HashSet<>();
+        for(int i = -1 ; i < 2; i++){
+            for(int j = -1; j < 2;j++){
                 if(i == 0 & j == 0){
                     continue;
                 }
-                Coordinates newCoordinates = new Coordinates(from.vertical+j,from.horizontal+i);
-                if(board.isOutOfBounds(newCoordinates)){
-                    continue;
-                }
-                if (board.containsPiece(newCoordinates) && !board.isEnemy(from, newCoordinates)) {
-                    continue;
-                }
-
-                if(board.isCellUnderAttack(newCoordinates,getColor().opposite())){
-                    continue;
-                }
-                possibleSet.add(newCoordinates);
-                }
+                CoordinatesChange change = new CoordinatesChange(i,j);
+                result.add(change);
             }
-        return possibleSet;
+        }
+        return result;
     }
 
 
