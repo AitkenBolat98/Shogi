@@ -3,6 +3,7 @@ package org.example;
 import org.example.Piece.Piece;
 
 import java.util.Scanner;
+import java.util.Set;
 
 public class InputCoordinates {
     private static final Scanner scanner = new Scanner(System.in);
@@ -38,12 +39,13 @@ public class InputCoordinates {
         }
 
     }
-    public static Coordinates inputReturnedPieceCoordinates(Board board){
+
+    public static Coordinates inputReturnedPieceCoordinates(Board board) {
         while (true) {
             Coordinates coordinates = input();
-            if (board.containsPiece(coordinates)){
+            if (board.containsPiece(coordinates)) {
                 continue;
-            }else {
+            } else {
                 return coordinates;
             }
         }
@@ -62,20 +64,37 @@ public class InputCoordinates {
                 System.out.println("wrong color chosen");
                 continue;
             }
+
+            Set<Coordinates> availableMovesForChosenPiece = piece.getAvailableMoves(board);
+            if (availableMovesForChosenPiece.size() == 0) {
+                System.out.println("no available moves");
+                continue;
+            }
+
             return coordinates;
         }
     }
 
-    public static Coordinates targetCoordinatesApproval(Piece piece, Coordinates sourceCoordinates, Board board) {
+    public static Coordinates inputAvailableCell(Set<Coordinates> availableCoordinates) {
         while (true) {
             System.out.println("enter coordinates to move");
             Coordinates targetCoordinates = input();
-            if (piece.availableCoordinates(sourceCoordinates,targetCoordinates,board).contains(targetCoordinates)){
-                return  targetCoordinates;
-            }else {
-                System.out.println("invalid target coordinates");
+            if(!availableCoordinates.contains(targetCoordinates)){
                 continue;
             }
+            return targetCoordinates;
+        }
+    }
+
+    public static Move inputMove(Board board, Color color, MapRenderer renderer) {
+        while (true) {
+            Coordinates sourceCoordinates = inputPieceCoordinatesForColor(color,board);
+            Piece piece = board.getPiece(sourceCoordinates);
+            Set<Coordinates> availableCoordinatesForChosenPiece = piece.getAvailableMoves(board);
+            Coordinates targetCoordinates = inputAvailableCell(availableCoordinatesForChosenPiece);
+            Move move = new Move(sourceCoordinates,targetCoordinates);
+            return move;
+
         }
     }
 }

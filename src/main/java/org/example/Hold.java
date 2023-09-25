@@ -5,16 +5,11 @@ import org.example.Piece.Piece;
 import java.util.ArrayList;
 
 public class Hold {
+    public final Board board;
+    public Hold(Board board){
+        this.board = board;
+    };
 
-    private Board board = Board.getUniqueBoard();
-    private static Hold uniqueHold;
-    private Hold(){}
-    public static Hold getUniqueHold(){
-        if(uniqueHold == null){
-            uniqueHold = new Hold();
-        }
-        return uniqueHold;
-    }
 
     private ArrayList<Piece> hold = new ArrayList<>();
 

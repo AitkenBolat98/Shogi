@@ -24,23 +24,15 @@ public class Game {
         while (state == GameState.ONGOING){
             mapRenderer.render(board);
             if(playerWantToReturnPieceFromHold(colorToMove)){
-                Hold hold = Hold.getUniqueHold();
-                hold.displayPiecesInHold(colorToMove);
+
+                board.hold.displayPiecesInHold(colorToMove);
                 Piece chosenPiece = playerChosenPieceFromHold(colorToMove);
                 Coordinates coordinatesForChosenPiece = InputCoordinates.inputReturnedPieceCoordinates(board);
-                hold.returnFromHold(chosenPiece,coordinatesForChosenPiece);
+                board.hold.returnFromHold(chosenPiece,coordinatesForChosenPiece);
                 colorToMove = colorToMove.opposite();
             }else {
-                Coordinates sourceCoordinates = InputCoordinates.inputPieceCoordinatesForColor(
-                        colorToMove, board);
-                Piece chosenPiece = board.getPiece(sourceCoordinates);
-                Coordinates targetCoordinates = InputCoordinates.targetCoordinatesApproval(
-                        chosenPiece, sourceCoordinates, board);
-                chosenPiece.move(sourceCoordinates, targetCoordinates, board);
-                chosenPiece = board.getPiece(targetCoordinates);
-                if(chosenPiece.isPieceInPromotionZone(targetCoordinates,chosenPiece)){
-                    chosenPiece.promotePiece(chosenPiece);
-                }
+                Move move = InputCoordinates.inputMove(board,colorToMove,mapRenderer);
+                board.createMove(move);
                 colorToMove = colorToMove.opposite();
                 state = determineGameState(board,colorToMove);
 
@@ -62,8 +54,7 @@ public class Game {
 
 
     public boolean playerWantToReturnPieceFromHold(Color color){
-        Hold hold = Hold.getUniqueHold();
-        if(hold.isHoldEmptyForColor(color)){
+        if(board.hold.isHoldEmptyForColor(color)){
             return false;
         }
         while (true) {
@@ -88,8 +79,7 @@ public class Game {
             if(answer.length() != 1){
                 continue;
             }
-            Hold hold =Hold.getUniqueHold();
-            ArrayList<Piece> piecesInHold = hold.piecesInHold(color);
+            ArrayList<Piece> piecesInHold = board.hold.piecesInHold(color);
             for (int i = 0; i < piecesInHold.size();i++){
                 Piece currentPiece = piecesInHold.get(i);
                 if(currentPiece.getName().equals(answer)){

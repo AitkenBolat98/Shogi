@@ -11,7 +11,7 @@ import java.util.Set;
 
 abstract public class Piece {
 
-    private Coordinates coordinates;
+    public Coordinates coordinates;
     private final Color color;
     protected boolean isPromoted = false;
     protected String name;
@@ -35,9 +35,29 @@ abstract public class Piece {
         board.setPiece(to,piece);
     }
 
-    abstract public Set<CoordinatesChange> availableCoordinates(Board board);
+    abstract public Set<CoordinatesChange> allPossibleMoves(Board board);
+    public Set<Coordinates> getAvailableMoves(Board board){
+        Set<Coordinates> result = new HashSet<>();
+        for(CoordinatesChange change : allPossibleMoves(board)){
+            if(coordinates.isChangePossible(change)){
+                Coordinates newCoordinates = coordinates.change(change);
+                if(isCellAvailableForMove(coordinates,board)){
+                    result.add(newCoordinates);
+                }
+            }
+        }
+        return result;
+    }
+    protected boolean isCellAvailableForMove(Coordinates coordinates,Board board){
+        if(board.containsPiece(coordinates)|| board.getPiece(coordinates).getColor() != color){
+            return true;
+        }
+        return false;
+    }
 
-    protected HashSet<Coordinates> availableCoordinatesAsPromoted(Coordinates from,Board board){
+
+
+/*    protected HashSet<Coordinates> availableCoordinatesAsPromoted(Coordinates from,Board board){
         for(int j = -1;j < 2; j ++){
             for(int i = -1;i < 2;i++){
                 if(j == 1 && i ==-1){
@@ -57,7 +77,7 @@ abstract public class Piece {
             }
         }
         return  possibleSet;
-    }
+    }*/
 
     public void eatEnemy(Board board, Coordinates to){
         Piece pieceTo = board.getPiece(to);

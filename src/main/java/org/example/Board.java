@@ -2,25 +2,21 @@ package org.example;
 
 import org.example.Piece.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Board {
 
-    private static Board uniqueBoard;
     private HashMap<Coordinates, Piece> board = new HashMap();
-
-    private Board(){
-    }
-
-    public static Board getUniqueBoard(){
-        if(uniqueBoard == null){
-            uniqueBoard = new Board();
+    public List<Move> moves = new ArrayList<>();
+    public final Hold hold = new Hold(this);
+    public Board(){};
+    public Board makeCopy(Board originalBoard){
+        Board clone = new Board();
+        clone.setDefaultPositions();
+        for(Move move:originalBoard.moves){
+            clone.createMove(move);
         }
-
-        return uniqueBoard;
+        return clone;
     }
     public void setDefaultPositions(){
         //set Pawns
@@ -84,39 +80,14 @@ public class Board {
             return false;
         }
     }
-    public boolean isEnemy(Coordinates from,Coordinates to){
-        Piece pieceFrom = getPiece(from);
-        Piece pieceTo = getPiece(to);
-        if(pieceFrom.getColor() != pieceTo.getColor()){
-            return true;
-        }else{
-            return false;
-        }
+    public void createMove(Move move){
+        Piece from = board.get(move.from);
+        removePiece(from);
+        setPiece(move.to,from);
+        moves.add(move);
     }
-///    board.containsKey(enemyPieces.get(i).possibleSet.contains(to)
-
-    public boolean isCellUnderAttack(Coordinates to,Color color){
-        List<Piece> enemyPieces = getPiecesByColor(color);
-        for(Piece piece:enemyPieces){
-            if(piece instanceof King){
-                continue;
-            }
-            if(piece.availableCoordinates(piece.getCoordinates(),to,this).size() == 0 ){
-                continue;
-            }else {
-                return true;
-            }
-        }
-        return false;
-    }
-    public boolean isOutOfBounds(Coordinates coordinates){
-        if(coordinates.vertical > 8 || coordinates.vertical < 0){
-            return true;
-        }
-        if(coordinates.horizontal > 8 || coordinates.horizontal < 0){
-            return true;
-        }
-        return false;
+    public void removePiece(Piece piece){
+        board.remove(piece);
     }
 
     public List<Piece> getPiecesByColor(Color color){
@@ -129,7 +100,6 @@ public class Board {
         return result;
     }
     public void putInHold(Piece piece){
-        Hold hold = Hold.getUniqueHold();
         hold.addToHold(piece);
     }
     public void deletePiece(Coordinates coordinates){
@@ -141,6 +111,19 @@ public class Board {
         }catch (Exception e){
             throw new RuntimeException("There is no piece on given coordinates");
         }
+    }
+    public boolean isCellAttackedByColor(Color color,Coordinates coordinates){
+        List<Piece> enemyPieces = getPiecesByColor(color);
+
+        for(Piece piece:enemyPieces){
+            Set<Coordinates> availableMovesForPiece = piece.getAvailableMoves(this);
+            if(availableMovesForPiece.contains(coordinates)){
+                return true;
+            }
+        }
+
+        return false;
+
     }
 
     @Override

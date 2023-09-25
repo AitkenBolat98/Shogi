@@ -15,13 +15,13 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public Set<CoordinatesChange> availableCoordinates(Board board) {
+    public Set<CoordinatesChange> allPossibleMoves(Board board) {
         HashSet<CoordinatesChange> result = new HashSet<>();
         if(getColor() == Color.WHITE){
-            CoordinatesChange move = new CoordinatesChange(-1,0);
+            CoordinatesChange move = new CoordinatesChange(1,0);
             result.add(move);
         }else {
-            CoordinatesChange move = new CoordinatesChange(1,0);
+            CoordinatesChange move = new CoordinatesChange(-1,0);
             result.add(move);
         }
         return result;

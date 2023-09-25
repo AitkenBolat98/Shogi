@@ -16,7 +16,7 @@ public class GoldenGeneral extends Piece {
     }
 
     @Override
-    public Set<CoordinatesChange> availableCoordinates(Board board) {
+    public Set<CoordinatesChange> allPossibleMoves(Board board) {
         Set<CoordinatesChange> result = new HashSet<>();
         for (int j = -1; j < 2; j++) {
             for (int i = -1; i < 2; i++) {

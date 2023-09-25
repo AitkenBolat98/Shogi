@@ -15,7 +15,7 @@ public class Rook extends Piece{
     }
 
     @Override
-    public Set<CoordinatesChange> availableCoordinates(Board board) {
+    public Set<CoordinatesChange> allPossibleMoves(Board board) {
         Set<CoordinatesChange> result = new HashSet<>();
         for(int i = -8; i < 8; i++){
             if(i == 0){
