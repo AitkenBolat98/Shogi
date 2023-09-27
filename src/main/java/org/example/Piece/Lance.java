@@ -32,4 +32,8 @@ public class Lance extends Piece{
         return result;
     }
 
+    @Override
+    protected boolean isPathOccupiedByFriendly(Coordinates to, Board board)
+    }
+
 }

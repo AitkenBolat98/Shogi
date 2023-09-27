@@ -21,8 +21,12 @@ public class Board {
     public void setDefaultPositions(){
         //set Pawns
         for(int i = 0; i < 9; i++){
+/*
             setPiece(new Coordinates(2,i),new Pawn(Color.WHITE,new Coordinates(2,i)));
+*/
+/*
             setPiece(new Coordinates(6,i),new Pawn(Color.BLACK,new Coordinates(7,i)));
+*/
         }
         //set Lances
         /*setPiece(new Coordinates(0,0),new Lance(Color.WHITE,new Coordinates(0,0)));
@@ -80,14 +84,21 @@ public class Board {
             return false;
         }
     }
+    public boolean isCellOccupiedByEnemy(Coordinates coordinates,Color color){
+        Piece piece = getPiece(coordinates);
+        if(piece.getColor() != color){
+            return true;
+        }
+        return false;
+    }
     public void createMove(Move move){
         Piece from = board.get(move.from);
-        removePiece(from);
+        removePiece(move.from);
         setPiece(move.to,from);
         moves.add(move);
     }
-    public void removePiece(Piece piece){
-        board.remove(piece);
+    public void removePiece(Coordinates coordinates){
+        board.remove(coordinates);
     }
 
     public List<Piece> getPiecesByColor(Color color){
@@ -116,8 +127,8 @@ public class Board {
         List<Piece> enemyPieces = getPiecesByColor(color);
 
         for(Piece piece:enemyPieces){
-            Set<Coordinates> availableMovesForPiece = piece.getAvailableMoves(this);
-            if(availableMovesForPiece.contains(coordinates)){
+            Set<Coordinates> availableAttacksForPiece = piece.getAttackedCells(this);
+            if(availableAttacksForPiece.contains(coordinates)){
                 return true;
             }
         }

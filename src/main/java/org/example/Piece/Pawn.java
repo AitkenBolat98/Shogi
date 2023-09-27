@@ -27,6 +27,14 @@ public class Pawn extends Piece {
         return result;
     }
 
+    @Override
+    protected boolean isPathOccupiedByFriendly(Coordinates to, Board board) {
+        if(!board.containsPiece(to) || !board.isCellOccupiedByEnemy(to,getColor())) {
+            return false;
+        }
+        return true;
+    }
+
 
 }
 

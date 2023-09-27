@@ -55,7 +55,7 @@ abstract public class Piece {
         return false;
     }
 
-
+    protected abstract boolean isPathOccupiedByFriendly(Coordinates to,Board board);
 
 /*    protected HashSet<Coordinates> availableCoordinatesAsPromoted(Coordinates from,Board board){
         for(int j = -1;j < 2; j ++){
@@ -78,7 +78,22 @@ abstract public class Piece {
         }
         return  possibleSet;
     }*/
+    protected Set<CoordinatesChange> getPieceAttacks(Board board){
+        return allPossibleMoves(board);
+    }
 
+    public Set<Coordinates> getAttackedCells(Board board){
+        Set<CoordinatesChange> pieceAttacks = getPieceAttacks(board);
+        Set<Coordinates> result = new HashSet<>();
+
+        for(CoordinatesChange pieceAttack:pieceAttacks){
+            if(coordinates.isChangePossible(pieceAttack)) {
+                Coordinates newCoordinates = coordinates.change(pieceAttack);
+                result.add(newCoordinates);
+            }
+        }
+        return result;
+    }
     public void eatEnemy(Board board, Coordinates to){
         Piece pieceTo = board.getPiece(to);
         pieceTo.setPromoted(false);
