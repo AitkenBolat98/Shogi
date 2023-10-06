@@ -16,23 +16,12 @@ abstract public class Piece {
     protected boolean isPromoted = false;
     protected String name;
 
-    public HashSet<Coordinates> possibleSet = new HashSet<>();
     public Piece(Color color,Coordinates coordinates){
         this.color = color;
         this.coordinates = coordinates;
     }
     public String getName() {
         return name;
-    }
-
-
-    public void move(Coordinates from,Coordinates to,Board board){
-        if(board.containsPiece(to)){
-            eatEnemy(board,to);
-        }
-        Piece piece = board.getPiece(from);
-        board.deletePiece(from);
-        board.setPiece(to,piece);
     }
 
     abstract public Set<CoordinatesChange> allPossibleMoves(Board board);
@@ -55,29 +44,45 @@ abstract public class Piece {
         return false;
     }
 
-    protected abstract boolean isPathOccupiedByFriendly(Coordinates to,Board board);
+    public abstract boolean isPathOccupiedByFriendly(Coordinates to,Board board);
 
-/*    protected HashSet<Coordinates> availableCoordinatesAsPromoted(Coordinates from,Board board){
-        for(int j = -1;j < 2; j ++){
-            for(int i = -1;i < 2;i++){
-                if(j == 1 && i ==-1){
-                    continue;
+    protected Set<CoordinatesChange> allPossibleMovesAsPromoted(){
+        Set<CoordinatesChange> result = new HashSet<>();
+        if(getColor() == Color.WHITE){
+            for (int j = -1; j < 2; j++) {
+                for (int i = -1; i < 2; i++) {
+                    if (j == -1 && i == -1) {
+                        continue;
+                    }
+                    if (j == -1 && i == 1) {
+                        continue;
+                    }
+                    if (j == 0 && i == 0) {
+                        continue;
+                    }
+                    CoordinatesChange change = new CoordinatesChange(j, i);
+                    result.add(change);
                 }
-                if(j == 1 && i == 1){
-                    continue;
+            }
+        }else {
+            for (int j = -1; j < 2; j++) {
+                for (int i = -1; i < 2; i++) {
+                    if (j == 1 && i == 1) {
+                        continue;
+                    }
+                    if (j == 1 && i == -1) {
+                        continue;
+                    }
+                    if (j == 0 && i == 0) {
+                        continue;
+                    }
+                    CoordinatesChange change = new CoordinatesChange(j, i);
+                    result.add(change);
                 }
-                if(j == 0 && i == 0){
-                    continue;
-                }
-                Coordinates newCoordinates = new Coordinates(from.vertical+j,from.horizontal+i);
-                if(board.containsPiece(newCoordinates) && !board.isEnemy(from,newCoordinates)){
-                    continue;
-                }
-                possibleSet.add(newCoordinates);
             }
         }
-        return  possibleSet;
-    }*/
+        return result;
+    }
     protected Set<CoordinatesChange> getPieceAttacks(Board board){
         return allPossibleMoves(board);
     }
@@ -93,12 +98,6 @@ abstract public class Piece {
             }
         }
         return result;
-    }
-    public void eatEnemy(Board board, Coordinates to){
-        Piece pieceTo = board.getPiece(to);
-        pieceTo.setPromoted(false);
-        board.putInHold(pieceTo);
-        board.deletePiece(to);
     }
     public boolean isPieceInPromotionZone(Coordinates coordinates,Piece piece){
         HashSet<Coordinates> promotionZone = coordinates.promotionZone(piece);

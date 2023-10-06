@@ -13,7 +13,7 @@ public class GameStateChecker {
     public GameState check(Board board, Color color){
         Piece king = board.getPiecesByColor(color).stream().filter(piece -> piece instanceof King).findFirst().get();
 
-        if(!board.isCellAttackedByColor(color,king.getCoordinates())){
+        if(!board.isCellAttackedByColor(color.opposite(),king.getCoordinates())){
             return GameState.ONGOING;
         }
 

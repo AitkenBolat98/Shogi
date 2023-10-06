@@ -1,17 +1,16 @@
 package org.example.Piece;
 
-import org.example.Color;
-import org.example.Coordinates;
-import org.example.Board;
-import org.example.CoordinatesChange;
+import org.example.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Rook extends Piece{
-    public Rook(Color color, Coordinates coordinates) {
+    public Rook(Color color, Coordinates coordinates,boolean isPromoted) {
         super(color, coordinates);
         this.name = "R";
+        this.isPromoted = isPromoted;
     }
 
     @Override
@@ -34,5 +33,24 @@ public class Rook extends Piece{
         return result;
     }
 
+    @Override
+    public boolean isPathOccupiedByFriendly(Coordinates to, Board board){
+        List<Coordinates> coordinatesBetween;
+
+        if(this.coordinates.vertical == to.vertical){
+            coordinatesBetween = BoardShifts.getVerticalCoordinatesBetween(this.coordinates,to);
+        }else if(this.coordinates.horizontal == to.horizontal){
+            coordinatesBetween = BoardShifts.getHorizontalCoordinatesBetween(this.coordinates,to);
+        }else {
+            coordinatesBetween = BoardShifts.getDiagonalCoordinatesBetween(this.coordinates,to);
+        }
+
+        for(Coordinates x : coordinatesBetween){
+            if(board.containsPiece(x)){
+                return false;
+            }
+        }
+        return true;
+    }
 
 }

@@ -24,7 +24,7 @@ public class Coordinates {
         if(newHorizontal > 8 || newHorizontal < 0) {
             return false;
         }
-        if(newVertical > 8 || newHorizontal < 0){
+        if(newVertical > 8 || newVertical < 0){
             return false;
         }
         return true;
@@ -39,7 +39,7 @@ public class Coordinates {
                 }
             }
         }else {
-            for(int i = 2;i < -1;i--){
+            for(int i = 2;i > -1;i--){
                 for (int j = 0;j < 9;j++){
                     Coordinates coordinates = new Coordinates(i,j);
                     result.add(coordinates);

@@ -10,9 +10,10 @@ import java.util.Set;
 
 public class SilverGeneral extends Piece{
 
-    public SilverGeneral(Color color, Coordinates coordinates) {
+    public SilverGeneral(Color color, Coordinates coordinates,boolean isPromoted) {
         super(color, coordinates);
         this.name =  "S";
+        this.isPromoted = isPromoted;
     }
 
     @Override
@@ -28,5 +29,12 @@ public class SilverGeneral extends Piece{
                 }
             }
         return result;
+    }
+    @Override
+    public boolean isPathOccupiedByFriendly(Coordinates to, Board board) {
+        if(board.containsPiece(to)){
+            return false;
+        }
+        return true;
     }
 }

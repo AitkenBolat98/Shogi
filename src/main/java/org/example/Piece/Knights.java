@@ -10,9 +10,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Knights extends Piece {
-    public Knights(Color color, Coordinates coordinates) {
+    public Knights(Color color, Coordinates coordinates,boolean isPromoted) {
         super(color, coordinates);
         this.name = "N";
+        this.isPromoted = isPromoted;
     }
 
     @Override
@@ -37,5 +38,13 @@ public class Knights extends Piece {
             }
 
         return result;
+    }
+
+    @Override
+    public boolean isPathOccupiedByFriendly(Coordinates to, Board board) {
+        if(board.containsPiece(to)){
+            return false;
+        }
+        return true;
     }
 }

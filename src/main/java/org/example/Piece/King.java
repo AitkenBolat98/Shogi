@@ -31,6 +31,17 @@ public class King extends Piece{
         return result;
     }
 
+    @Override
+    public boolean isPathOccupiedByFriendly(Coordinates to, Board board) {
+        if(board.containsPiece(to)) {
+            if(board.isCellOccupiedByEnemy(to,getColor())){
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
 
 
 }

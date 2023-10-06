@@ -92,6 +92,10 @@ public class InputCoordinates {
             Piece piece = board.getPiece(sourceCoordinates);
             Set<Coordinates> availableCoordinatesForChosenPiece = piece.getAvailableMoves(board);
             Coordinates targetCoordinates = inputAvailableCell(availableCoordinatesForChosenPiece);
+            if(piece.isPathOccupiedByFriendly(targetCoordinates,board)){
+                System.out.println("path to target coordinates is blocked");
+                continue;
+            }
             Move move = new Move(sourceCoordinates,targetCoordinates);
             return move;
 

@@ -18,21 +18,47 @@ public class GoldenGeneral extends Piece {
     @Override
     public Set<CoordinatesChange> allPossibleMoves(Board board) {
         Set<CoordinatesChange> result = new HashSet<>();
-        for (int j = -1; j < 2; j++) {
-            for (int i = -1; i < 2; i++) {
-                if (j == -1 && i == -1) {
-                    continue;
+        if(getColor() == Color.WHITE){
+            for (int j = -1; j < 2; j++) {
+                for (int i = -1; i < 2; i++) {
+                    if (j == -1 && i == -1) {
+                        continue;
+                    }
+                    if (j == -1 && i == 1) {
+                        continue;
+                    }
+                    if (j == 0 && i == 0) {
+                        continue;
+                    }
+                    CoordinatesChange change = new CoordinatesChange(j, i);
+                    result.add(change);
                 }
-                if (j == -1 && i == 1) {
-                    continue;
+            }
+        }else {
+            for (int j = -1; j < 2; j++) {
+                for (int i = -1; i < 2; i++) {
+                    if (j == 1 && i == 1) {
+                        continue;
+                    }
+                    if (j == 1 && i == -1) {
+                        continue;
+                    }
+                    if (j == 0 && i == 0) {
+                        continue;
+                    }
+                    CoordinatesChange change = new CoordinatesChange(j, i);
+                    result.add(change);
                 }
-                if (j == 0 && i == 0) {
-                    continue;
-                }
-                CoordinatesChange change = new CoordinatesChange(j, i);
-                result.add(change);
             }
         }
         return result;
+    }
+
+    @Override
+    public boolean isPathOccupiedByFriendly(Coordinates to, Board board) {
+        if(board.containsPiece(to)){
+            return false;
+        }
+        return true;
     }
 }
