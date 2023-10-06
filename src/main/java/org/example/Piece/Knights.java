@@ -20,7 +20,9 @@ public class Knights extends Piece {
     public Set<CoordinatesChange> allPossibleMoves(Board board) {
 
         Set<CoordinatesChange> result = new HashSet<>();
-
+        if(isPromoted){
+            return allPossibleMovesAsPromoted();
+        }
             if (getColor() == Color.WHITE) {
 
                 CoordinatesChange whiteOptionOne = new CoordinatesChange(2,  - 1);

@@ -19,9 +19,11 @@ public class Pawn extends Piece {
     public Set<CoordinatesChange> allPossibleMoves(Board board) {
 
         HashSet<CoordinatesChange> result = new HashSet<>();
+
         if(isPromoted){
             return allPossibleMovesAsPromoted();
         }
+
         if(getColor() == Color.WHITE){
             CoordinatesChange move = new CoordinatesChange(1,0);
             result.add(move);

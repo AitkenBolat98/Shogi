@@ -18,6 +18,10 @@ public class SilverGeneral extends Piece{
 
     @Override
     public Set<CoordinatesChange> allPossibleMoves(Board board) {
+        if(isPromoted){
+            return allPossibleMovesAsPromoted();
+        }
+
         Set<CoordinatesChange> result = new HashSet<>();
             for(int i = -1;i < 2; i += 2){
                 for(int j = 0; j < 3;j++){

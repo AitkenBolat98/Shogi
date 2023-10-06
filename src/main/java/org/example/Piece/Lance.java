@@ -16,6 +16,9 @@ public class Lance extends Piece{
 
     @Override
     public Set<CoordinatesChange> allPossibleMoves(Board board) {
+        if(isPromoted){
+            return allPossibleMovesAsPromoted();
+        }
         Set<CoordinatesChange> result = new HashSet<>();
         if(getColor() == Color.WHITE){
             for(int i = 1; i < 9;i ++){

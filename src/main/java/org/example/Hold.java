@@ -21,6 +21,7 @@ public class Hold {
         for(int i = 0; i < hold.size();i++){
             if(hold.get(i) == piece){
                 board.setPiece(coordinates,piece);
+                hold.remove(piece);
                 }
                 }
 
@@ -49,7 +50,8 @@ public class Hold {
         return result;
     }
     public boolean isHoldEmptyForColor(Color color){
-        System.out.println(hold.size());
+
+        System.out.println("Overall hold size " + hold.size());
         for (int i = 0;i < hold.size();i++){
             if(hold.get(i).getColor() != color){
                 return false;

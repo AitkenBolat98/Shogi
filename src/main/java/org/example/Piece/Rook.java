@@ -30,6 +30,11 @@ public class Rook extends Piece{
             CoordinatesChange change = new CoordinatesChange(0,j);
             result.add(change);
         }
+        if(this.isPromoted){
+            Set<CoordinatesChange> promotedMoves = allPossibleMovesAsPromoted();
+            result.addAll(promotedMoves);
+        }
+
         return result;
     }
 
@@ -44,7 +49,6 @@ public class Rook extends Piece{
         }else {
             coordinatesBetween = BoardShifts.getDiagonalCoordinatesBetween(this.coordinates,to);
         }
-
         for(Coordinates x : coordinatesBetween){
             if(board.containsPiece(x)){
                 return false;
@@ -52,5 +56,31 @@ public class Rook extends Piece{
         }
         return true;
     }
+    @Override
+    protected Set<CoordinatesChange> allPossibleMovesAsPromoted(){
+        Set<CoordinatesChange> result = new HashSet<>();
+        if(getColor() == Color.WHITE){
+            for (int j = -1; j < 2; j++) {
+                for (int i = -1; i < 2; i++) {
+                    if (j == 0 && i == 0) {
+                        continue;
+                    }
+                    CoordinatesChange change = new CoordinatesChange(j, i);
+                    result.add(change);
+                }
+            }
+        }else {
+            for (int j = -1; j < 2; j++) {
+                for (int i = -1; i < 2; i++) {
+                    if (j == 0 && i == 0) {
+                        continue;
+                    }
+                    CoordinatesChange change = new CoordinatesChange(j, i);
+                    result.add(change);
+                }
+            }
+        }
 
-}
+        return result;
+    }
+    }

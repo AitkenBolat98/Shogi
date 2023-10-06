@@ -42,7 +42,7 @@ public class BoardShifts {
 
         List<Coordinates> result = new ArrayList<>();
 
-        int fileShift = source.vertical < target.horizontal ? 1 : -1;
+        int fileShift = source.vertical < target.vertical ? 1 : -1;
 
         for (
                 int fileIndex = source.vertical + fileShift; fileIndex != target.vertical;

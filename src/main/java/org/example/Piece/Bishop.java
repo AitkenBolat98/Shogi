@@ -33,6 +33,12 @@ public class Bishop extends Piece {
             CoordinatesChange change = new CoordinatesChange(j,-j);
             result.add(change);
         }
+
+        if(this.isPromoted){
+            Set<CoordinatesChange> promotedMoves = allPossibleMovesAsPromoted();
+            result.addAll(promotedMoves);
+        }
+
         return result;
     }
 
@@ -50,10 +56,37 @@ public class Bishop extends Piece {
 
         for(Coordinates x : coordinatesBetween){
             if(board.containsPiece(x)){
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
+    }
+    @Override
+    protected Set<CoordinatesChange> allPossibleMovesAsPromoted(){
+        Set<CoordinatesChange> result = new HashSet<>();
+        if(getColor() == Color.WHITE){
+            for (int j = -1; j < 2; j++) {
+                for (int i = -1; i < 2; i++) {
+                    if (j == 0 && i == 0) {
+                        continue;
+                    }
+                    CoordinatesChange change = new CoordinatesChange(j, i);
+                    result.add(change);
+                }
+            }
+        }else {
+            for (int j = -1; j < 2; j++) {
+                for (int i = -1; i < 2; i++) {
+                    if (j == 0 && i == 0) {
+                        continue;
+                    }
+                    CoordinatesChange change = new CoordinatesChange(j, i);
+                    result.add(change);
+                }
+            }
+        }
+
+        return result;
     }
 }
 
