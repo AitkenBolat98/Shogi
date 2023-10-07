@@ -12,7 +12,7 @@ public class SilverGeneral extends Piece{
 
     public SilverGeneral(Color color, Coordinates coordinates,boolean isPromoted) {
         super(color, coordinates);
-        this.name =  "S";
+        this.name = "S";
         this.isPromoted = isPromoted;
     }
 
