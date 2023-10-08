@@ -49,7 +49,7 @@ public class Board {
         //set Golden Generals
         setPiece(new Coordinates(0,3),new GoldenGeneral(Color.WHITE,new Coordinates(0,3)));
         setPiece(new Coordinates(0,5),new GoldenGeneral(Color.WHITE,new Coordinates(0,5)));
-        setPiece(new Coordinates(8,2),new GoldenGeneral(Color.BLACK,new Coordinates(8,2)));
+        setPiece(new Coordinates(8,3),new GoldenGeneral(Color.BLACK,new Coordinates(8,3)));
         setPiece(new Coordinates(8,5),new GoldenGeneral(Color.BLACK,new Coordinates(8,5)));
 
         //set King

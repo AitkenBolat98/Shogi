@@ -40,7 +40,7 @@ public class MapRenderer {
                 boolean isOccupied = availableMoves.contains(newCoordinates);
 
                 if (!board.containsPiece(newCoordinates)) {
-                    l += getSpriteForEmptySquare(newCoordinates, isOccupied);
+                    l += getSpriteForEmptySquare(newCoordinates, isOccupied) + "  ";
                 } else {
                     l += getPieceSprite(board.getPiece(newCoordinates), isOccupied);
                 }
@@ -51,25 +51,7 @@ public class MapRenderer {
     }
 
     public void render(Board board) {
-        doRender(board,null);
-/*        System.out.print(" |");
-        for (int i = 0; i < 9; i++) {
-            System.out.print(" " + i + " |");
-        }
-        System.out.println();
-        for (int i = 0; i < 9; i++) {
-            System.out.print(i + "|");
-            for (int j = 0; j < 9; j++) {
-                Coordinates coordinates = new Coordinates(i, j);
-                if (board.containsPiece(coordinates)) {
-                    System.out.print(" " + board.getPiece(coordinates).getName() + " |");
-                } else {
-                    System.out.print("   |");
-                }
-            }
-            System.out.println();
-        }
-        System.out.println("__________________________________________");*/
+        doRender(board, null);
     }
 
     private String selectUnicodeSpriteForPiece(Piece piece) {
@@ -123,7 +105,7 @@ public class MapRenderer {
     }
 
     private String getSpriteForEmptySquare(Coordinates coordinates, boolean isHighlight) {
-        return colorizeSprite("   ", Color.WHITE, Board.isCellBlack(coordinates), isHighlight);
+        return colorizeSprite( "  ", Color.WHITE, Board.isCellBlack(coordinates), isHighlight);
     }
 
     private String getPieceSprite(Piece piece, boolean isHighlight) {
